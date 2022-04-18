@@ -1,22 +1,67 @@
-from statistics import mode
+# from readline import append_history_file
+from unicodedata import name
 from django.db import models
+from pkg_resources import compatible_platforms
 
-# Create your models here.
-class CountryData(models.Model):
-  country = models.CharField(max_length=100)
-  population = models.IntegerField()
+class Costs(models.Model):                 
+    name = models.CharField(max_length=20) 
+    cost = models.IntegerField()           
+    cpm = models.IntegerField()            
+    cost_0min = models.IntegerField()      
+    cost_5min = models.IntegerField()      
+    cost_10min = models.IntegerField()     
+    cost_15min = models.IntegerField()     
+    cost_20min = models.IntegerField()     
+    cost_25min = models.IntegerField()     
+    cost_30min = models.IntegerField()     
+                                           
+    class Meta:                            
+        managed = False                    
+        db_table = 'Costs'                 
 
-  class Meta:
-    verbose_name_plural = '각 나라별 인구 데이터'
+class Accident(models.Model):
+    yy = models.IntegerField(primary_key=True)
+    ac_case = models.IntegerField()
+    dead = models.IntegerField()
+    injured = models.IntegerField()
 
-  def __str__(self):
-    return f'{self.country}--{self.population}'
+    class Meta:
+        managed = False
+        db_table = 'accident'
 
-class PriceperMin(models.Model):
-  Cost = models.CharField(max_length=8)
-  Cost_per_min = models.IntegerField()
-  after_3min = models.IntegerField()
-  after_10min = models.IntegerField()
+class AccType(models.Model):
+    ac_type = models.CharField(max_length=20)
+    ac_detail = models.CharField(primary_key=True, max_length=50)
+    ac_case = models.IntegerField()
+    ac_per = models.IntegerField()
 
-  def __str__(self):
-    return f'{self.Cost}--{self.Cost_per_min}--{self.after_3min}--{self.after_10min}'
+    class Meta:
+        managed = False
+        db_table = 'acc_type'
+
+class SafetyRule(models.Model):
+    rule = models.CharField(primary_key=True, max_length=20)
+    follow_rule_case = models.IntegerField(blank=True, null=True)
+    follow_rule_per = models.IntegerField(blank=True, null=True)
+    not_follow_rule_case = models.IntegerField(blank=True, null=True)
+    not_follow_rule_per = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'safety_rule'
+
+class CostsTop5(models.Model):
+    name = models.CharField(max_length=20)
+    cost = models.IntegerField()
+    cpm = models.IntegerField()
+    cost_0min = models.IntegerField()
+    cost_5min = models.IntegerField()
+    cost_10min = models.IntegerField()
+    cost_15min = models.IntegerField()
+    cost_20min = models.IntegerField()
+    cost_25min = models.IntegerField()
+    cost_30min = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'Costs_top5'

@@ -1,0 +1,92 @@
+{% extends 'blog/base_full_width.html' %}
+{% load static %}
+{% block title %}Memo{% endblock %}
+{% load crispy_forms_tags %}
+{% block main_area %}
+<div id="comment-area">
+    <section class="mb-5">
+        <div class="card bg-light">
+            <div class="card-body">
+                {% if user.is_authenticated %}
+                <!-- Comment form-->
+                <form class="mb-4" id="comment-form" method="post" action="new_memo/">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ memo_form|crispy }}
+                    </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                {% else %}
+                <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="#" data-toggle="modal" data-target="#loginModal">Log in and leave a Comment</a><br>
+                {% endif %}
+                <!-- Comment with nested comments-->
+     
+                <!-- Single comment-->
+                {% for memo in memos %}
+                <div class="d-flex" id="memo-{{ memo.pk }}">
+                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                    <div class="ms-3 ml-3 media-body">
+                        <div class="fw-bold">
+                            {% if user.is_authenticated and memo.author == user %}
+                            <div class="float-right">
+                                <a role="button" class="btn btn-sm btn-info" id="memo-{{ memo.pk }}-update-btn" href="#editMemo-{{ memo.pk }}" data-toggle="collapse" aria-expanded="false" aria-controls="#editMemo-{{ memo.pk }}">Edit</a>
+                                <a role="button" class="btn btn-sm btn-info" id="memo-{{ memo.pk }}-delete-modal-btn" href="#" data-toggle="modal" data-target="#deleteCommentModal-{{ memo.pk }}">Delete</a>
+                            </div>
+
+                            <div class="collapse" id="editMemo-{{ memo.pk }}">
+                                <div class="well">
+                                <form class="mb-4" id="comment-form" method="post" action="/memo_form/#{{ memo.pk }}/">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        {{ form|crispy }}
+                                        <div>
+                                            <th><label for="edit-memo">Edit</label></th>
+                                            <td><input type="text" name="tags_str" id="edit-memo" class="textinput textInput form-control" value="{{ memo.content }}"></td>
+                                        </div>
+                                    </div>
+                                <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                                </form>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="deleteCommentModal-{{ memo.pk }}" tabindex="-1" role="dialog" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel">삭제하시겠습니까?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <del>{{ memo|linebreaks }}</del>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <a role="button" class="btn btn-danger" href="/delete_memo/{{ memo.pk }}/">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <h5 class="mt-0">{{ memo.author.username }} &nbsp;&nbsp;<small class="text-muted">{{ memo.created_at }}</small></h5>
+                        </div>
+                        <p>{{ memo.content|linebreaks }}</p>
+                        {% if memo.created_at != memo.modified_at %}
+                        <p class="text-muted float-right"><small>Updated: {{ memo.modified_at }}</small></p>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+                {% endfor %}
+
+            </div>
+            <hr>
+        </div>
+    </section>
+</div>
+{% endblock main_area %}
+{% block script%}
+
+<!-- <script src="{% static 'blog/addform.js' %}"></script> -->
+{% endblock script%}

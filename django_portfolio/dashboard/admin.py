@@ -2,12 +2,12 @@ from django.contrib import admin
 from dashboard import models
 
 # Register your models here.
-class CountryAdmin(admin.ModelAdmin):
-    list_display = ('country', 'population')
+class ServiceAdmin(admin.ModelAdmin):
+  fieldsets = [
+    ('업체', {'fields': ['name']}),
+    ('기본 가격', {'fields': ['cost']}),
+    ('분당 가격', {'fields': ['cpm']})
+  ]
+  list_display = ('name', 'cost', 'cpm')
 
-admin.site.register(models.CountryData, CountryAdmin)
-
-class PriceAdmin(admin.ModelAdmin):
-    list_display = ('Cost', 'Cost_per_min', 'after_3min', 'after_10min')
-
-admin.site.register(models.PriceperMin, PriceAdmin)
+admin.site.register(models.Costs, ServiceAdmin)

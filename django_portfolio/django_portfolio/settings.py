@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import pymysql
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -56,6 +57,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'portfoliopage',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -101,14 +103,25 @@ WSGI_APPLICATION = 'django_portfolio.wsgi.application'
 #     }
 # }
 # mysql
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.**mysql**'),
+#         'NAME': os.environ.get('SQL_DATABASE', os.path.join(BASE_DIR / 'db.sqlite3')),
+#         'USER': os.environ.get('SQL_USER', 'soo'),
+#         'PASSWORD': os.environ.get('SQL_PASSWORD', 'rid147rid'),
+#         'HOST': os.environ.get('SQL_HOST', 'localhost'),
+#         'PORT': os.environ.get('SQL_PORT', '5432')
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.sqlite3'),
-        'NAME': os.environ.get('SQL_DATABASE', os.path.join(BASE_DIR / 'db.sqlite3')),
-        'USER': os.environ.get('SQL_USER', 'user'),
-        'PASSWORD': os.environ.get('SQL_PASSWORD', 'password'),
-        'HOST': os.environ.get('SQL_HOST', 'localhost'),
-        'PORT': os.environ.get('SQL_PORT', '5432')
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'project1',
+        'USER': 'soo',
+        'PASSWORD':'rid147rid',
+        'HOST': '3.37.127.11',
+        'PORT': '3306'
     }
 }
 
@@ -165,3 +178,20 @@ SITE_ID = 2
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VARIFICATION = 'none'
+
+# 사이트 직접 등록 말고 이렇게 해도 됨~~~~
+SOCIALACCOUNT_PROVIDERS = {
+   'google': {
+       # For each OAuth based provider, either add a ``SocialApp``
+       # (``socialaccount`` app) containing the required client
+       # credentials, or list them here:
+       'APP': {
+           'client_id': '521756975316-npc52f25htqd0p8th4fgl75rlqlgjisf.apps.googleusercontent.com',
+           'secret': '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',
+           'key': ''
+       }
+   }
+}
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

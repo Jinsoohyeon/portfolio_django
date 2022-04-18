@@ -24,6 +24,7 @@ urlpatterns = [
     path('dashboard/', include('dashboard.urls')),
     path('markdownx/', include('markdownx.urls')),
     path('', include('singlepage.urls')),
+    path('portfolio/', include('portfoliopage.urls')),
     path('accounts/', include('allauth.urls')),
 ]
 
