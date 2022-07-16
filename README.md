@@ -1,5 +1,6 @@
 # portfolio
-K-Digital 수업 수강 중 진행한 팀프로젝트입니다.(2022.04)
+K-Digital 수업 수강 중 진행한 팀프로젝트입니다.(2022.04)  
+
 목표: django를 이용하여 개인 포트폴리오 페이지 제작
 ![포트폴리오 메인페이지](https://user-images.githubusercontent.com/99802290/179352690-3d0efd6f-5d11-4556-a3aa-8f6194afdb32.png)
 (포트폴리오 메인 페이지)
