@@ -20,3 +20,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+    sample_line = 'this is smaple line for show github pull requests'
+    Issue = 'and for isuue'
